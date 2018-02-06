@@ -39,7 +39,9 @@ module.exports.routes = {
   'get /blockchain/getblock':'BlockchainController.getBlock',
   'post /blockchain/mineBlock':'BlockchainController.mineBlock',
   'get /blockchain/getpeer':'BlockchainController.getPeers',
-  'post /blockchain/addpeer':'BlockchainController.addPeer'
+  'post /blockchain/addpeer':'BlockchainController.addPeer',
+  'get /hello':'HelloController.hello'
+
 
 
   /***************************************************************************

@@ -17,5 +17,9 @@ module.exports = {
 
     queryChainLengthMsg() {
         return { 'type': MessageType.QUERY_LATEST }
+    },
+
+    queryAllMsg() {
+        return { 'type': MessageType.QUERY_ALL }
     }
 }

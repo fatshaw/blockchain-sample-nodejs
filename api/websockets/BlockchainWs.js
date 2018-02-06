@@ -62,12 +62,19 @@ var handleBlockchainResponse = (message) => {
     if (latestBlockReceived.index > latestBlockHeld.index) {
         sails.log.info('blockchain possibly behind. We got: ' + latestBlockHeld.index + ' Peer got: ' + latestBlockReceived.index)
         if (latestBlockHeld.hash === latestBlockReceived.previousHash) {
+            sails.log.info('We can append then received block to the chain')
             BlockchainService.addBlock(latestBlockReceived)
-            broadcast(JSON.stringify(BlockchainResponseService.responseLatestMsg()))
+            broadcast(BlockchainResponseService.responseLatestMsg())
+        } else if (receivedBlocks.length === 1) {
+            sails.log.info('We should query all blocks from our peers')
+            broadcast(BlockchainResponseService.queryAllMsg())
+        } else {
+            sails.log.info('try to replace receiced blocks')
+            BlockchainService.replaceChain(receivedBlocks)
+            broadcast(BlockchainResponseService.responseLatestMsg())
         }
     }
 }
 
 var broadcast = (message) => sockets.forEach(socket => write(socket, message))
-
 var write = (ws, message) => ws.send(JSON.stringify(message));
